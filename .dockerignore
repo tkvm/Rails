@@ -1,0 +1,8 @@
+.git
+.gitignore
+log/*
+tmp/*
+tmp/pids/*
+storage/*
+node_modules
+.bundle

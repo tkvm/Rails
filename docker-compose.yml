@@ -1,0 +1,30 @@
+services: # ここから下に、起動したいサービス一覧を書く
+  web: # webという名前のコンテナ
+    build: . # そのコンテナは今のフォルダのDockerfileからビルド
+    container_name: rails_web
+    volumes:
+      - .:/app #左側.はホストの今のフォルダ,右側/appはコンテナ内(ソースコードを共有するため)
+      - bundle_data:/usr/local/bundle # 右:コンテナの中の保存先(gemを永続化するため)
+    # volumes: # この書き方でも同じことができる
+    # - type: volume
+    #   source: bundle_data
+    #   target: /usr/local/bundle
+    ports:
+      - "3001:3001" # ホストの3001番ポートにアクセスしたら、コンテナの3001番に流す。
+    environment:
+      RAILS_ENV: development # 環境変数RAILS_MASTER_KEYを渡す
+    stdin_open: true # 標準入力を開いたままにする(キーボード入力を渡しやすくする)
+    tty: true # ターミナルを開いたままにする(コンテナのターミナルを開いたままにする)
+  # db:
+  #   image: postgres:17
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_PASSWORD: password
+  #   ports:
+  #     - "5432:5432"
+
+# bundle_dataという保存領域を定義する。上のwebでそれを/usr/local/bundleへ接続
+volumes:
+  bundle_data:
+  # postgres_data:
